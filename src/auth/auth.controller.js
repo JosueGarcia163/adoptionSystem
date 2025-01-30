@@ -5,7 +5,7 @@ export const register = async (req, res) => {
     try {
         const data = req.body
         //Si en el request file viene filaname se guarda y si no viene se almacena null.
-        let profilePicture = req.file ? req.file.filaname: null
+        let profilePicture = req.file ? req.file.filename: null
        console.log(data)
         const encryptedPassword = await hash(data.password)
         data.password = encryptedPassword

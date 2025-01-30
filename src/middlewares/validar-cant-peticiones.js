@@ -4,7 +4,7 @@ import rateLimit from "express-rate-limit";
 
 const apiLimiter = rateLimit({
     //Maximas 50 peticiones por minuto.
-    windowMs: 15* 60* 1000,
+    windowMs: 15 * 60 * 1000,
     max: 50
 })
 

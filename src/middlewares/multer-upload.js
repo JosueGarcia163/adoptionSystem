@@ -45,4 +45,4 @@ const createMulterConfig = (destinationPath) => {
 
 }
     export const uploadProfilePicture = createMulterConfig("../../public/uploads/profile-pictures")
-    export const uploadPetPicture = createMulterConfig("../public/uploads/pet-pictures")
+    export const uploadPetPicture = createMulterConfig("../../public/uploads/pet-pictures")
