@@ -7,6 +7,7 @@ import morgan from 'morgan'
 import { dbConnect } from './mongo.js'
 import authRoutes from "../src/auth/auth.routes.js"
 import apiLimiter from '../src/middlewares/validar-cant-peticiones.js'
+import userRoutes from "../src/user/user.routes.js"
 
 
 //Express realiza la solicitud a la base de datos.
@@ -23,6 +24,7 @@ const middlewares = (app) => {
 
 const routes = (app) =>{
     app.use("/adoptionSystem/v1/auth", authRoutes)
+    app.use("/adoptionSystem/v1/user",userRoutes)
 }
 
 const conectarDB = async () => {

@@ -65,6 +65,13 @@ const userSchema = Schema({
     }
 )
 
+userSchema.methods.toJSON = function(){
+    const{ password, _id, ...user} = this.toObject()
+    user.uid = _id
+    return user
+
+}
+
 // Exportamos el esquema para utilizarlo
 export default model("User", userSchema)
 
