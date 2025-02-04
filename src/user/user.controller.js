@@ -1,5 +1,6 @@
 import User from "./user.model.js"
-import { hash} from "argon2"
+import { hash, verify } from "argon2";
+
 
 export const getUserById = async (req, res) => {
 
@@ -39,7 +40,7 @@ export const getUsers = async (req, res) => {
 
     try {
         //traer los usuarios en cierta cantidad
-        const { limit = 3, from = 0 } = req.query
+        const { limits = 3, from = 0 } = req.query
         const query = { status: true }
 
         const [total, users] = await Promise.all([
@@ -98,16 +99,30 @@ export const deleteUser = async (req, res) => {
 //Metodo para actualizar contraseña
 export const updatePassword = async (req, res) => {
     try {
-        const { uid} = req.params
-        const { newPassword} = req.body
+        const { uid } = req.params
+        const { newPassword } = req.body
 
+        const user = await User.findById(uid)
+
+        const matchPassword = await verify(user.password, newPassword)
+
+        if (matchPassword) {
+            return res.status(400).json({
+                success: false,
+                message: "La nueva contraseña no puede ser igual a la anterior"
+            })
+        }
+
+        //Encriptamos la nueva password con hash y la guardamos en la constante
         const encryptedPassword = await hash(newPassword)
-        //actualizamos la nueva password
-        await User.findByIdAndUpdate(uid, {password: encryptedPassword})
+
+        //Buscamos por medio del id y actualizamos la password.
+        await User.findByIdAndUpdate(uid, { password: encryptedPassword })
+
+        //Mandamos mensaje si se actualizo la password de forma correcta.
         return res.status(200).json({
             success: true,
-            message: "contraseña actualizada"
-
+            message: "Contraseña actualizada"
         })
     } catch (err) {
         return res.status(500).json({

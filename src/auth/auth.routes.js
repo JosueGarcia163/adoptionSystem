@@ -15,7 +15,7 @@ router.post("/register",
 )
 
 //le paso el middleWare y el controlador "login"
-router.post("/Login", loginValidator, login)
+router.post("/login", loginValidator, login)
 
 export default router
 
